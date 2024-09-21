@@ -56,7 +56,7 @@ const BottomNavigator = () => {
           options={{
             tabBarIcon: ({ focused }) => (
 
-              <View style = {{backgroundColor: focused? color.Offwhite : "transparent" , height: 30 , width:30 ,justifyContent:"center" , alignItems:"center"  , borderRadius:10 }}>
+              <View style={[styles.PopContainer,   {backgroundColor: focused ? color.Offwhite : "transparent"}]} >
                 <Icon
                   type={"FontAwesome"}
                   name="user"
@@ -110,6 +110,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0, // Remove any potential padding
     overflow: 'hidden',
   },
+
+
+  PopContainer: {
+  
+    height: 30, width: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10
+  }
 
 });
 
