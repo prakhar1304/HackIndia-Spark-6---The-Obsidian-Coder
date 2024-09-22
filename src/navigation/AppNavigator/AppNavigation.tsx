@@ -6,6 +6,7 @@ import Home from '../../screen/Home/Home';
 import BottomNavigator from '../BottomNavigator/BottomNavigator';
 import Profile from '../../screen/Profile/Profile';
 import Detailed from '../../screen/Detail/Detailed';
+import BottomSheetPage from '../../components/bottomSheet/BottomSheetPage';
 
 
 
@@ -30,6 +31,9 @@ function AppNavigation() {
         options={{ animation: 'slide_from_bottom' }}
       />
       <Stack.Screen name='Detailed' component={Detailed}
+        options={{ animation: 'slide_from_bottom' }}
+      />
+      <Stack.Screen name='BottomSheetPage' component={BottomSheetPage}
         options={{ animation: 'slide_from_bottom' }}
       />
     </Stack.Navigator>

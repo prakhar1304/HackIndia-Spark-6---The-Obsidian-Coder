@@ -68,7 +68,19 @@ const Marketplace = () => {
             <Text style={styles.nftPrice}>2.75 ETH</Text>
           </View>
         </View>
+         
 
+
+         <View>
+
+
+          <TouchableOpacity style = {{width:100 ,  height: 100}} 
+           onPress={() => navigation.navigate('BottomSheetPage')}
+          >
+             <Text >click</Text>
+          </TouchableOpacity> 
+
+         </View>
         <NFTList nftData={nftData}  />
         
         {/* Trending Collections */}
@@ -87,13 +99,7 @@ const Marketplace = () => {
           <View>
             {/* <ConnectWallet /> */}
           </View>
-          <TouchableOpacity style = {{width:100 ,  height: 100}} 
-           onPress={() => navigation.navigate('Cat')}
-          >
-                <Text>click</Text>
-
-              
-          </TouchableOpacity>
+        
         </View>
         <NFTList nftData={nftData}  />
         <Text>gscfahgfhgk</Text>

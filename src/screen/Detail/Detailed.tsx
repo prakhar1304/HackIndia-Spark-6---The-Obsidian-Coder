@@ -1,68 +1,123 @@
-import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import React, { useState } from 'react';
+import {
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import { useRoute, RouteProp } from '@react-navigation/native';
+import color from '../../common/color';
+import ImageBackgroundInfo from '../../components/detailedScreen/ImageBackgroundInfo';
 
-// Define the type for the route params (if using TypeScript)
 interface RouteParams {
-  
-    id: string;
-    imageUrl: string;
-    minBid: string;
-  
+  id: string;
+  imageUrl: string;
+  minBid: string;
 }
 
-const Detailed = () => {
+const Detailed = ({ navigation }: any) => {
   const route = useRoute<RouteProp<{ params: RouteParams }, 'params'>>();
-  const { id  , imageUrl , minBid } = route.params; // Destructure nftData safely
-  console.log("Received params:",  id,);
+  const { id, imageUrl, minBid } = route.params;
 
+  const [fullDesc, setFullDesc] = useState(false);
 
-  if (!id) {
-    return (
-      <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>No NFT data available</Text>
-      </View>
-    );
-  }
+  const BackHandler = () => {
+    navigation.pop();
+  };
 
   return (
-    <View style={styles.container}>
-      <Image source={{ uri: imageUrl }} style={styles.nftImage} />
-      <Text style={styles.minBidText}>Minimum Bid: {minBid}</Text>
+    <View style={styles.screenContainer}>
+      <StatusBar backgroundColor={color.GREY} />
+      <ScrollView contentContainerStyle={styles.scrollViewFlex}>
+        {/* Image Background Info */}
+        <ImageBackgroundInfo
+          id={id}
+          imageUrl={imageUrl}
+          minBid={minBid}
+          BackHandler={BackHandler}
+        />
+
+        {/* NFT Details Section */}
+        <View style={styles.gradientContainer}>
+          <View style={styles.detailsContainer}>
+            <Text style={styles.title}>Money Fam</Text>
+            {fullDesc ? (
+              <TouchableOpacity onPress={() => setFullDesc(false)}>
+                <Text style={styles.descriptionText}>
+                  Sometimes in life, we have to just go with the vibe. Enjoy the unbothered moments with Money Fam. More...
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity onPress={() => setFullDesc(true)}>
+                <Text numberOfLines={2} style={styles.descriptionText}>
+                  Sometimes in life, we have to just go with the vibe. Enjoy the unbothered moments with Money Fam.
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+
+          {/* Make Bid Button */}
+          <TouchableOpacity
+            style={styles.bidButton}
+            onPress={() => {
+              console.log('Making a bid...');
+              // Add logic for making a bid
+            }}
+          >
+            <Text style={styles.bidButtonText}>Make Bid</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </View>
   );
 };
 
-export default Detailed;
-
 const styles = StyleSheet.create({
-  container: {
+  screenContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    padding: 16,
+    backgroundColor: color.bg_white,
   },
-  nftImage: {
-    width: 300,
-    height: 300,
+  scrollViewFlex: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
+  },
+  gradientContainer: {
+    padding: 20,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    marginTop: -60, // Adjusted margin to overlap with ImageBackgroundInfo
+    flex: 1,
+  },
+  detailsContainer: {
     marginBottom: 20,
-    borderRadius: 10, // Adds rounded corners for a polished look
   },
-  minBidText: {
-    fontSize: 18,
+  title: {
+    fontSize: 22,
+    color: color.gold,
+    marginBottom: 10,
     fontWeight: 'bold',
-    color: '#333',
   },
-  errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+  descriptionText: {
+    color: color.WHITE,
+    fontSize: 14,
+    letterSpacing: 0.5,
   },
-  errorText: {
+  bidButton: {
+    backgroundColor: '#4CAF50',
+    paddingHorizontal: 60,
+    paddingVertical: 15,
+    borderRadius: 25,
+    alignSelf: 'center',
+  },
+  bidButtonText: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: 'red',
+    color: '#fff',
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });
+
+export default Detailed;

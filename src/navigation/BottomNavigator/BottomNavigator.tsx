@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { StyleSheet, View, Animated } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../../screen/Home/Home';
 import Profile from '../../screen/Profile/Profile';
@@ -9,6 +9,28 @@ import Icon from '../../common/Icon';
 import color from '../../common/color';
 
 const Tab = createBottomTabNavigator();
+
+interface AnimatedIconProps {
+  focused: boolean;
+  children: React.ReactNode;
+}
+
+const AnimatedIcon: React.FC<AnimatedIconProps> = ({ focused, children }) => {
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    Animated.spring(scaleAnim, {
+      toValue: focused ? 1.2 : 1,  // Scale to 1.2 when focused
+      useNativeDriver: true,
+    }).start();
+  }, [focused]);
+
+  return (
+    <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+      {children}
+    </Animated.View>
+  );
+};
 
 const BottomNavigator = () => {
   return (
@@ -24,13 +46,17 @@ const BottomNavigator = () => {
           name="Home"
           component={Home}
           options={{
-            tabBarIcon: ({ focused }) => (
-              <Icon
-                type={"AntDesign"}
-                name="home"
-                size={25}
-                color={focused ? color.gold : color.Offwhite}
-              />
+            tabBarIcon: ({ focused }: { focused: boolean }) => (
+              <AnimatedIcon focused={focused}>
+                <View style={[styles.PopContainer, { backgroundColor: focused ? color.Offwhite : 'transparent' }]}>
+                  <Icon
+                    type={"AntDesign"}
+                    name="home"
+                    size={25}
+                    color={focused ? color.gold : color.Offwhite}
+                  />
+                </View>
+              </AnimatedIcon>
             ),
           }}
         />
@@ -39,13 +65,17 @@ const BottomNavigator = () => {
           name="Marketplace"
           component={Marketplace}
           options={{
-            tabBarIcon: ({ focused }) => (
-              <Icon
-                type={"Entypo"}
-                name="shop"
-                size={25}
-                color={focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex}
-              />
+            tabBarIcon: ({ focused }: { focused: boolean }) => (
+              <AnimatedIcon focused={focused}>
+                <View style={[styles.PopContainer, { backgroundColor: focused ? color.Offwhite : 'transparent' }]}>
+                  <Icon
+                    type={"Entypo"}
+                    name="shop"
+                    size={25}
+                    color={focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex}
+                  />
+                </View>
+              </AnimatedIcon>
             ),
           }}
         />
@@ -54,17 +84,17 @@ const BottomNavigator = () => {
           name="Profile"
           component={Profile}
           options={{
-            tabBarIcon: ({ focused }) => (
-
-              <View style={[styles.PopContainer,   {backgroundColor: focused ? color.Offwhite : "transparent"}]} >
-                <Icon
-                  type={"FontAwesome"}
-                  name="user"
-                  size={25}
-                  color={focused ? color.MAINCOLOUR : COLORS.primaryLightGreyHex}
-                />
-              </View>
-
+            tabBarIcon: ({ focused }: { focused: boolean }) => (
+              <AnimatedIcon focused={focused}>
+                <View style={[styles.PopContainer, { backgroundColor: focused ? color.Offwhite : 'transparent' }]}>
+                  <Icon
+                    type={"FontAwesome"}
+                    name="user"
+                    size={25}
+                    color={focused ? color.MAINCOLOUR : COLORS.primaryLightGreyHex}
+                  />
+                </View>
+              </AnimatedIcon>
             ),
           }}
         />
@@ -77,49 +107,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  // tabBarStyle: {
-  //   height: 65,
-  //   position: 'absolute',
-  //   // backgroundColor: color.MAINCOLOUR,
-  //   backgroundColor: "rgba(14, 2, 69, 0.66)",
-  //   // borderTopWidth: 0,
-  //   elevation: 3,
-  //   borderRadius: 16,
-  //   overflow: 'hidden',
-  //   shadowColor: "#000",
-  //   shadowOffset: { width: 0, height: 3 },
-  //   shadowOpacity: 0.27,
-  //   shadowRadius: 4.65,
-  //   bottom:10,
-  //   width:"90%",
-  //   left:20
-  // },
-
 
   tabBarStyle: {
     height: 65,
     position: 'absolute',
-    backgroundColor: "rgba(14, 2, 69, 0.9)", // Keeping the transparency
-    elevation: 0, // Remove elevation to avoid shadow
-    borderTopWidth: 0, // Ensure no top border
+    backgroundColor: "rgba(14, 2, 69, 0.9)",
+    elevation: 0,
+    borderTopWidth: 0,
     borderRadius: 16,
     bottom: 10,
     width: "90%",
     left: 20,
-    shadowColor: "transparent", // Remove shadow
-    paddingHorizontal: 0, // Remove any potential padding
+    shadowColor: "transparent",
+    paddingHorizontal: 0,
     overflow: 'hidden',
   },
 
-
   PopContainer: {
-  
-    height: 30, width: 30,
+    height: 30, 
+    width: 30,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10
-  }
-
+    borderRadius: 10,
+  },
 });
 
 export default BottomNavigator;
