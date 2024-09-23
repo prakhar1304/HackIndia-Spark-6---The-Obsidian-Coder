@@ -58,7 +58,10 @@ const Detailed = ({ navigation }: any) => {
               </TouchableOpacity>
             )}
           </View>
-
+           
+          <View style = {{height:50, backgroundColor:color.GREY , borderRadius:30 , marginBottom:10 ,  elevation:1}}>
+           
+          </View>
           {/* Make Bid Button */}
           <TouchableOpacity
             style={styles.bidButton}
@@ -78,14 +81,15 @@ const Detailed = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
-    backgroundColor: color.bg_white,
+    backgroundColor: color.WHITE,
   },
   scrollViewFlex: {
     flexGrow: 1,
     justifyContent: 'space-between',
   },
   gradientContainer: {
-    padding: 20,
+    paddingTop:100,
+    paddingHorizontal:20,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     marginTop: -60, // Adjusted margin to overlap with ImageBackgroundInfo
@@ -101,7 +105,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   descriptionText: {
-    color: color.WHITE,
+    color: color.GREY,
     fontSize: 14,
     letterSpacing: 0.5,
   },

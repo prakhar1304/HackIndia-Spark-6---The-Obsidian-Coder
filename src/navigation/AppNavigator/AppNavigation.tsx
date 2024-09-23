@@ -7,6 +7,8 @@ import BottomNavigator from '../BottomNavigator/BottomNavigator';
 import Profile from '../../screen/Profile/Profile';
 import Detailed from '../../screen/Detail/Detailed';
 import BottomSheetPage from '../../components/bottomSheet/BottomSheetPage';
+import ARViewer from '../../components/arComponent/ARviewr';
+
 
 
 
@@ -34,6 +36,9 @@ function AppNavigation() {
         options={{ animation: 'slide_from_bottom' }}
       />
       <Stack.Screen name='BottomSheetPage' component={BottomSheetPage}
+        options={{ animation: 'slide_from_bottom' }}
+      />
+      <Stack.Screen name='ARViewer' component={ARViewer}
         options={{ animation: 'slide_from_bottom' }}
       />
     </Stack.Navigator>
